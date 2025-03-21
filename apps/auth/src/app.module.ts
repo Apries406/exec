@@ -7,8 +7,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import { TeamModule } from './modules/team/team.module';
-import { User } from './modules/user/entities/user.entity';
-import { Team } from './modules/team/entities/team.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { GrpcErrorInterceptor } from './interceptors/grpc-error.interceptor';
@@ -31,11 +29,10 @@ import { GrpcErrorInterceptor } from './interceptors/grpc-error.interceptor';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_DATABASE'),
+        autoLoadEntities: true,
         synchronize: true,
         poolSize: 10,
         connectorPackage: 'mysql2',
-        entities: [User, Team],
-        logging: true,
       }),
     }),
     JwtModule.registerAsync({
